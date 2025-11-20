@@ -18,6 +18,12 @@ This repository contains MATLAB code for designing and optimizing direct-drive F
 
 ---
 
+## 📋 Software Requrements
+1. MATLAB (R2020a or later recommended)
+2. Simulink
+3. Optimization Toolbox
+4. Global Optimization Toolbox (for Motor_Selection_fmincon.m only)
+
 ## 🚀 Quick Start
 
 ### Basic Pipeline (Recommended for Beginners)
