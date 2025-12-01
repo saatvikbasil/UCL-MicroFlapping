@@ -1,4 +1,5 @@
 # FWMAV Optimization Code Documentation
+# Author: Saatvik Basil
 
 Complete guide to the Flapping Wing Micro Aerial Vehicle (FWMAV) direct-drive motor selection and optimization codebase.
 
