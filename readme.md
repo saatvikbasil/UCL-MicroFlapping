@@ -27,7 +27,7 @@ This repository contains MATLAB code for designing and optimizing direct-drive F
 
 ## Quick Start
 
-### Basic Pipeline (Recommended for Beginners)
+### Basic Pipeline
 ```matlab
 % 1. Set up parameters
 FWMAV_Parameters
@@ -70,8 +70,6 @@ Motor_Selection_fmincon
 pipeline
 ```
 
-**Best for:** Quick iterations after modifying parameters
-
 ---
 
 ### 2. **FWMAV_Parameters.m**
@@ -92,18 +90,6 @@ pipeline
 **Usage:**
 ```matlab
 FWMAV_Parameters  % Run before simulation
-```
-
-**Outputs to workspace:**
-- All parameters needed for Simulink model
-- Displays summary of loaded parameters
-
-**Customization:**
-Edit the motor parameters section to match your motor datasheet:
-```matlab
-Ra = 9;                      % Your motor's resistance
-Kt = 0.01;                   % Your motor's torque constant
-% ... etc
 ```
 
 ---
@@ -141,8 +127,6 @@ Analyze_Results
 - Comparison table with paper results
 - 6-panel figure with time histories and phase portrait
 
-**Critical feature:** Correctly calculates drag **torque** (not just drag force) for accurate aerodynamic power estimation
-
 ---
 
 ### 4. **Motor_Selection_fmincon.m**
@@ -176,8 +160,6 @@ V_amplitude = 5;  % or 3V
 % Run optimization:
 Motor_Selection_fmincon
 ```
-
-**Typical runtime:** 3-5 minutes for ~25 starting points
 
 **Outputs:**
 - Optimal design parameters (Le, freq, KDD)
@@ -250,30 +232,7 @@ Optimize_DirectDrive
 
 ---
 
-### 6. **old_fmincon.m**
-**Purpose:** Earlier version of fmincon optimization (kept for reference)
-
-**Differences from Motor_Selection_fmincon.m:**
-- Uses 3 hand-picked initial guesses instead of systematic grid
-- Longer simulations (10 cycles vs 6)
-- More iterations (300 vs 150)
-- Includes verification test at paper's values
-
-**Usage:**
-```matlab
-old_fmincon
-```
-
-**When to use:**
-- Reference for algorithm development
-- Comparing optimization strategies
-- Validation purposes
-
-**Note:** `Motor_Selection_fmincon.m` is generally preferred for production use
-
----
-
-### 7. **create_fwmav_simulink_model.m**
+### 6. **create_fwmav_simulink_model.m**
 **Purpose:** Programmatically create Simulink model structure
 
 **What it creates:**
@@ -366,27 +325,4 @@ Park, H., & Abolfathi, A. (2024). Direct Drive Design and Operational Performanc
 - Eq. 20: Input electrical power
 - Eq. 22: Aerodynamic power
 - Eq. 23: System efficiency
-
----
-
-## Tips
-
-1. **Motor parameter estimation:** If datasheet incomplete, estimate:
-   - La ≈ 5 mH (typical for small DC motors)
-   - Jm ≈ 5×10⁻⁷ kg·m² (scale with motor size)
-   - bm ≈ 5×10⁻⁶ Ns/rad (usually small)
-
-2. **Kt and Kb calculation:**
-```matlab
-   Kt = Torque_stall / Current_stall
-   Kb = (V_rated - Current_noload * Ra) / (Speed_noload * 2*pi/60)
-```
-
-3. **Optimization speed:** Reduce simulation cycles in optimization codes if needed (line ~200 in helper functions)
-
-4. **Visualization:** All optimization codes generate plots automatically
-
-5. **Batch processing:** Modify `Optimize_DirectDrive.m` to loop over multiple motor specs
-
----
 
