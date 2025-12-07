@@ -5,7 +5,7 @@ Complete guide to the Flapping Wing Micro Aerial Vehicle (FWMAV) direct-drive mo
 
 ---
 
-## 📋 Overview
+## Overview
 
 This repository contains MATLAB code for designing and optimizing direct-drive FWMAVs based on the Park & Abolfathi (2024) model. The code performs motor selection, wing parameter optimization, dynamic simulation, and performance analysis.
 
@@ -19,13 +19,13 @@ This repository contains MATLAB code for designing and optimizing direct-drive F
 
 ---
 
-## 📋 Software Requrements
+## Software Requrements
 1. MATLAB (R2020a or later recommended)
 2. Simulink
 3. Optimization Toolbox
 4. Global Optimization Toolbox (for Motor_Selection_fmincon.m only)
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Basic Pipeline (Recommended for Beginners)
 ```matlab
@@ -55,7 +55,7 @@ Motor_Selection_fmincon
 
 ---
 
-## 📁 File Descriptions
+## File Descriptions
 
 ### 1. **pipeline.m**
 **Purpose:** Automated workflow for quick parameter → simulation → analysis
@@ -304,7 +304,7 @@ create_fwmav_simulink_model
 
 ---
 
-## 🔬 Technical Details
+## Technical Details - equations and stuff
 
 ### System Dynamics
 
@@ -344,31 +344,7 @@ J_total·β_ddot = Kt·i - bm·β_dot - Cw·β_dot·|β_dot| - KDD·β
 
 ---
 
-## 🛠️ Workflow Guide
-
-### For New Motor Selection:
-1. **Gather motor specs** from datasheet (Ra, Kt, Kb, etc.)
-2. **Edit `Optimize_DirectDrive.m`** with your motor parameters
-3. **Run optimization:** `Optimize_DirectDrive`
-4. **Note optimal design:** Le, frequency, KDD
-5. **Validate in Simulink:**
-   - Update `FWMAV_Parameters.m` with optimal values
-   - Run `pipeline`
-6. **Analyze results:** Check if performance meets requirements
-
-### For Parameter Tuning:
-1. **Modify `FWMAV_Parameters.m`**
-2. **Run `pipeline`** to see effect
-3. **Iterate** until satisfied
-
-### For Detailed Optimization:
-1. **Use `Motor_Selection_fmincon`** for rigorous search
-2. **Check all local minima** for alternative designs
-3. **Validate convergence** in plots
-
----
-
-## 📊 Validation
+## Validation
 
 All codes validated against:
 - **Park & Abolfathi (2024)** - "Direct Drive Design and Operational Performance Analysis of an Insect-Sized Flapping-Wing Micro Air Vehicle"
@@ -379,32 +355,7 @@ All codes validated against:
 
 ---
 
-## ⚠️ Common Issues & Fixes
-
-### "Run the Simulink simulation first!"
-**Fix:** Run `FWMAV_Parameters`, then `sim('FWMAV_DirectDrive')` before `Analyze_Results`
-
-### Unrealistic efficiency (>100% or negative)
-**Fix:** Check that:
-- Motor parameters are in correct units
-- Spring stiffness is reasonable (5-20 mNm/rad)
-- Simulation has converged (run more cycles)
-
-### Optimization returns poor results
-**Fix:**
-- Check motor parameter estimates (especially La, Jm, bm)
-- Verify power constraint isn't too restrictive
-- Try different voltage levels
-
-### Constraint violations
-**Fix:**
-- Increase power limit if motor can handle it
-- Relax efficiency bounds (12-50% is reasonable)
-- Expand search bounds for Le and frequency
-
----
-
-## 📚 References
+## References
 
 Park, H., & Abolfathi, A. (2024). Direct Drive Design and Operational Performance Analysis of an Insect-Sized Flapping-Wing Micro Air Vehicle.
 
@@ -418,7 +369,7 @@ Park, H., & Abolfathi, A. (2024). Direct Drive Design and Operational Performanc
 
 ---
 
-## 💡 Tips
+## Tips
 
 1. **Motor parameter estimation:** If datasheet incomplete, estimate:
    - La ≈ 5 mH (typical for small DC motors)
@@ -439,18 +390,3 @@ Park, H., & Abolfathi, A. (2024). Direct Drive Design and Operational Performanc
 
 ---
 
-## 🔄 Code Relationships
-```
-FWMAV_Parameters.m ──→ FWMAV_DirectDrive.slx ──→ Analyze_Results.m
-                              ↑
-                              │
-                         pipeline.m (combines all)
-
-Motor_Selection_fmincon.m ──→ Optimal parameters
-                                    ↓
-Optimize_DirectDrive.m ──────→ FWMAV_Parameters.m
-
-create_fwmav_simulink_model.m ──→ FWMAV_DirectDrive.slx (initial)
-```
-
----
